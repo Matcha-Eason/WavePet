@@ -1,0 +1,60 @@
+name: Validate WavePet
+
+on:
+  push:
+    paths:
+      - "plugins/wavepet/**"
+      - ".agents/plugins/marketplace.json"
+      - ".github/workflows/validate-wavepet.yml"
+  pull_request:
+    paths:
+      - "plugins/wavepet/**"
+      - ".agents/plugins/marketplace.json"
+      - ".github/workflows/validate-wavepet.yml"
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Validate manifest shape
+        run: |
+          python -m json.tool plugins/wavepet/.codex-plugin/plugin.json >/tmp/plugin.json
+          python -m json.tool .agents/plugins/marketplace.json >/tmp/marketplace.json
+
+      - name: Run state engine tests
+        run: |
+          python -m py_compile plugins/wavepet/scripts/pet_state_engine.py
+          python -m unittest discover -s plugins/wavepet/tests -v
+
+      - name: Validate sample output
+        run: |
+          python plugins/wavepet/scripts/pet_state_engine.py \
+            --events plugins/wavepet/examples/sample_events.jsonl \
+            > /tmp/wavepet_sample.jsonl
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          rows = [json.loads(line) for line in Path("/tmp/wavepet_sample.jsonl").read_text().splitlines()]
+          assert len(rows) == 8
+          assert rows[-1]["schema_version"] == "codex_pet_state.v0"
+          assert rows[-1]["state"] == "overheat_debugging"
+          assert rows[-1]["presentation"]["motion"] == "shake"
+          assert "signals" in rows[-1]
+          PY
+
+      - name: Check plugin package contains no cache files
+        run: |
+          if find plugins/wavepet -name "__pycache__" -o -name "*.pyc" | grep .; then
+            echo "Cache files must not be committed."
+            exit 1
+          fi

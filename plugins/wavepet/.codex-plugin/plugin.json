@@ -1,0 +1,36 @@
+{
+  "name": "wavepet",
+  "version": "0.1.0",
+  "description": "WavePet tracks and predicts Codex desktop-pet waiting-experience states from live Codex events.",
+  "author": {
+    "name": "Matcha-Eason"
+  },
+  "license": "MIT",
+  "keywords": [
+    "codex",
+    "desktop-pet",
+    "state-machine",
+    "waiting-experience",
+    "llm-observability"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "WavePet",
+    "shortDescription": "Track live Codex progress and predict desktop-pet waiting states.",
+    "longDescription": "WavePet estimates user-perceived waiting experience from live assistant tokens, thinking, tool calls, edits, tests, and errors. It provides online state tracking, lightweight near-term pressure signals, and stable JSON presentation hints for rich desktop pets or single-image pets.",
+    "developerName": "Matcha-Eason",
+    "category": "Productivity",
+    "capabilities": [
+      "Local",
+      "Analysis"
+    ],
+    "defaultPrompt": [
+      "Use WavePet to design a pet-state adapter.",
+      "Map my Codex events into desktop-pet state JSON.",
+      "Create a simple pet renderer from state JSON."
+    ],
+    "brandColor": "#2F6F73",
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/icon.svg"
+  }
+}

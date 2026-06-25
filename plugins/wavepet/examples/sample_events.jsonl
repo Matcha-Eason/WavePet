@@ -1,0 +1,8 @@
+{"event":"user_message","session_id":"sample","turn_id":"turn_1","timestamp_ms":1000,"token_estimate":220}
+{"event":"assistant_start","session_id":"sample","turn_id":"turn_1","timestamp_ms":1300,"goal_mode":true}
+{"event":"tick","session_id":"sample","turn_id":"turn_1","timestamp_ms":4300}
+{"event":"thinking_delta","session_id":"sample","turn_id":"turn_1","timestamp_ms":5100,"delta_tokens_est":80}
+{"event":"assistant_token_delta","session_id":"sample","turn_id":"turn_1","timestamp_ms":6200,"delta_tokens_est":160}
+{"event":"assistant_token_delta","session_id":"sample","turn_id":"turn_1","timestamp_ms":7600,"delta_tokens_est":190}
+{"event":"test_run_end","session_id":"sample","turn_id":"turn_1","timestamp_ms":9000,"success":false,"output_tokens_est":800,"failure_count_est":2}
+{"event":"error_feedback","session_id":"sample","turn_id":"turn_1","timestamp_ms":9300,"severity":"high","token_estimate":260}

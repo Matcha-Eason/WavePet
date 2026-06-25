@@ -1,0 +1,20 @@
+{
+  "name": "matcha-eason",
+  "interface": {
+    "displayName": "Matcha-Eason"
+  },
+  "plugins": [
+    {
+      "name": "wavepet",
+      "source": {
+        "source": "local",
+        "path": "./plugins/wavepet"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

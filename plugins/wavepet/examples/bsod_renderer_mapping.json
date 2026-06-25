@@ -1,0 +1,51 @@
+{
+  "description": "Adapter hints for driving a BSOD-style Codex pet from codex_pet_state.v0. This is intended for a sidecar renderer or future official pet hook that consumes current_state.json.",
+  "state_mapping": {
+    "reading_understanding": {
+      "bsod_pose": "idle_scan",
+      "motion": "reading",
+      "tint": "cool",
+      "bubble": "读取上下文",
+      "priority": 10
+    },
+    "steady_work": {
+      "bsod_pose": "normal_work",
+      "motion": "typing",
+      "tint": "neutral",
+      "bubble": "处理中",
+      "priority": 20
+    },
+    "deep_output": {
+      "bsod_pose": "focused_output",
+      "motion": "intense_typing",
+      "tint": "focus",
+      "bubble": "正在认真写...",
+      "priority": 30
+    },
+    "overheat_debugging": {
+      "bsod_pose": "blue_screen_pressure",
+      "motion": "shake",
+      "tint": "hot",
+      "bubble": "压力上来了",
+      "priority": 50
+    },
+    "closing": {
+      "bsod_pose": "settle",
+      "motion": "settle",
+      "tint": "cool",
+      "bubble": "收尾中",
+      "priority": 15
+    }
+  },
+  "intensity_rules": {
+    "scale": "Use presentation.scale directly when available. Otherwise compute 1.0 + 0.08 * intensity.",
+    "cadence_ms": "Use presentation.cadence_ms directly. Lower values mean faster animation.",
+    "shake_amplitude_px": "For overheat_debugging, use round(2 + 8 * intensity). For other states, use 0.",
+    "overlay_alpha": "Use 0.08 for cool/focus, 0.12 for warm, 0.18 for hot, multiplied by intensity."
+  },
+  "input_file": "~/Library/Application Support/Codex/wavepet/current_state.json",
+  "notes": [
+    "The official Codex BSOD pet has no documented external state ingestion API found yet.",
+    "This mapping is ready for a file-watching sidecar renderer or a future official file hook."
+  ]
+}

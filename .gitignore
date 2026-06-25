@@ -1,0 +1,19 @@
+# OS / editor
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+
+# Local outputs
+*.log
+nohup.out
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
+*.tgz

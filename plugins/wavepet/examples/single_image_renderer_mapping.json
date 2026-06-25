@@ -1,0 +1,47 @@
+{
+  "description": "Use this mapping when the desktop pet only has one static image. The renderer can animate the same image using the presentation fields from pet_state_engine.py.",
+  "motions": {
+    "reading": {
+      "transform": "slow bob",
+      "opacity": 0.95,
+      "notes": "Low-motion reading or observing state."
+    },
+    "typing": {
+      "transform": "small horizontal bounce",
+      "opacity": 1.0,
+      "notes": "Normal work cadence."
+    },
+    "intense_typing": {
+      "transform": "faster bounce plus slight scale pulse",
+      "opacity": 1.0,
+      "notes": "Long output or deep thinking."
+    },
+    "shake": {
+      "transform": "short high-frequency shake",
+      "opacity": 1.0,
+      "notes": "Debugging pressure, errors, failed tests, or heavy logs."
+    },
+    "settle": {
+      "transform": "slow return to idle",
+      "opacity": 0.98,
+      "notes": "Wrapping up."
+    }
+  },
+  "tints": {
+    "neutral": "no overlay or low-alpha gray",
+    "focus": "low-alpha cyan or green overlay",
+    "warm": "low-alpha amber overlay",
+    "hot": "medium-alpha red overlay",
+    "cool": "low-alpha blue overlay"
+  },
+  "required_output_fields": [
+    "state",
+    "intensity",
+    "presentation.motion",
+    "presentation.tint",
+    "presentation.scale",
+    "presentation.badge",
+    "presentation.bubble",
+    "presentation.cadence_ms"
+  ]
+}
