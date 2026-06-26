@@ -28,6 +28,7 @@ It focuses on user-perceived waiting experience: whether Codex appears to be rea
 python3 scripts/pet_state_engine.py --demo
 python3 scripts/pet_state_engine.py --events examples/sample_events.jsonl
 python3 scripts/pet_state_bridge.py --demo --history
+python3 scripts/install_wavepet_pet.py --run-dir ../../dist/wavepet-rocky-run
 python3 -m unittest discover -s tests -v
 python3 -m http.server 8787 --directory examples/local_pet_demo
 ```
@@ -53,6 +54,46 @@ The skill entry is:
 ```text
 skills/wavepet/SKILL.md
 ```
+
+## Custom Pet Install
+
+WavePet can also install a custom Codex pet package that maps WavePet states onto the current local Codex Rocky pet.
+
+By default, the installer does not redistribute Codex's official Rocky artwork inside this repository. If an embedded `pets/wavepet-rocky/` package is not present, it extracts the official Rocky spritesheet from the user's local `/Applications/Codex.app/Contents/Resources/app.asar`, writes a standard Codex custom pet package, and adds `wavepet-state-map.json` with the WavePet-to-Rocky animation mapping.
+
+Default behavior after plugin install:
+
+- Existing Rocky frames are mapped onto WavePet states without generating new artwork.
+- `reading_understanding` uses Rocky idle.
+- `steady_work` and `deep_output` use Rocky work/laptop frames with different cadence.
+- `overheat_debugging` uses Rocky failed/panic frames.
+- `closing` uses Rocky review/closing frames.
+
+Recommended next step:
+
+Use the WavePet skill together with the official `hatch-pet` workflow to create truly new state-specific assets, then install the completed hatch-pet run with `--run-dir`. This is better for a polished release pet because it can add distinct visuals for deep output, red-temperature debugging pressure, and closing instead of only reusing existing Rocky rows.
+
+Install from the current local Codex official Rocky asset:
+
+```bash
+python3 -m pip install pillow
+python3 plugins/wavepet/scripts/install_wavepet_pet.py
+```
+
+Install from a completed hatch-pet run after generating new state assets:
+
+```bash
+python3 plugins/wavepet/scripts/install_wavepet_pet.py \
+  --run-dir dist/wavepet-rocky-run
+```
+
+This writes the pet package to:
+
+```text
+~/.codex/pets/wavepet-rocky/
+```
+
+The installed package contains `pet.json`, `spritesheet.webp`, and `wavepet-state-map.json`. If `plugins/wavepet/pets/wavepet-rocky/pet.json` and `spritesheet.webp` are embedded later, the same installer will use that packaged pet before falling back to local official Rocky extraction.
 
 ## Single-Image Pet Compatibility
 

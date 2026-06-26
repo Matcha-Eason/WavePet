@@ -1,6 +1,6 @@
 ---
 name: wavepet
-description: Use when Codex needs to map live Codex agent events, streaming assistant output, tool calls, file edits, tests, errors, or waiting time into desktop-pet states; design or consume Codex pet-state JSON; integrate a desktop pet that may have either rich state-specific images or only one static image.
+description: Use when Codex needs to map live Codex agent events, streaming assistant output, tool calls, file edits, tests, errors, or waiting time into desktop-pet states; design or consume Codex pet-state JSON; integrate a desktop pet that may have either rich state-specific images or only one static image; create or plan WavePet-specific pet state assets with the official hatch-pet workflow.
 ---
 
 # WavePet
@@ -21,6 +21,26 @@ Core states:
 2. Use `scripts/pet_state_engine.py` for deterministic local state updates.
 3. Feed append-only events to the engine. Prefer frequent streaming events over only per-turn summaries.
 4. Render `state`, `intensity`, `signals`, and `presentation`; do not depend on state-specific images being available.
+
+## Pet Assets
+
+Default install behavior is conservative: `scripts/install_wavepet_pet.py` maps the current local Codex Rocky spritesheet onto WavePet states and writes `wavepet-state-map.json`. This gives immediate compatibility without redistributing official Codex artwork in the plugin repository.
+
+When the user asks for richer or new WavePet pet visuals, use the installed official `hatch-pet` skill. Treat the existing Rocky-based mapping as the fallback baseline, then generate or repair state-specific assets for these WavePet semantics:
+
+- `reading_understanding`: calm reading or context scanning.
+- `steady_work`: normal work cadence.
+- `deep_output`: sustained focused output or long thinking.
+- `overheat_debugging`: errors, failed tests, repeated validation, or heavy logs.
+- `closing`: wrap-up, final review, or completion.
+
+After hatch-pet produces a completed run, install it with:
+
+```bash
+python3 scripts/install_wavepet_pet.py --run-dir <absolute hatch-pet run dir>
+```
+
+Keep the hatch-pet acceptance criteria authoritative: standard 8x9 atlas, `192x208` cells, clean transparency, contact sheet review, and row-specific visual QA.
 
 ## Runtime Model
 

@@ -32,8 +32,22 @@ jobs:
 
       - name: Run state engine tests
         run: |
-          python -m py_compile plugins/wavepet/scripts/pet_state_engine.py
+          python -m pip install pillow
+          python -m py_compile \
+            plugins/wavepet/scripts/pet_state_engine.py \
+            plugins/wavepet/scripts/pet_state_bridge.py \
+            plugins/wavepet/scripts/install_wavepet_pet.py
           python -m unittest discover -s plugins/wavepet/tests -v
+
+      - name: Validate pet installer fallback path
+        run: |
+          if python plugins/wavepet/scripts/install_wavepet_pet.py \
+            --codex-home /tmp/wavepet-codex-home \
+            --codex-app /not/a/codex/app \
+            --no-official-rocky-fallback; then
+            echo "installer unexpectedly succeeded without packaged assets or official Rocky fallback"
+            exit 1
+          fi
 
       - name: Validate sample output
         run: |
