@@ -136,9 +136,9 @@ def read_asar_header(asar_path: Path) -> tuple[dict[str, Any], int]:
         header = handle.read(16)
         if len(header) != 16:
             raise ValueError(f"{asar_path} is not a valid asar file.")
-        _, _, _, header_size = struct.unpack("<IIII", header)
-        raw_header = handle.read(header_size)
-    return json.loads(raw_header.decode("utf-8")), 16 + header_size
+        _, header_size, _, header_json_size = struct.unpack("<IIII", header)
+        raw_header = handle.read(header_json_size)
+    return json.loads(raw_header.decode("utf-8")), 8 + header_size
 
 
 def extract_asar_file(asar_path: Path, asset_path: str, output_path: Path) -> None:
@@ -155,6 +155,8 @@ def extract_asar_file(asar_path: Path, asset_path: str, output_path: Path) -> No
         data = handle.read(size)
     if len(data) != size:
         raise ValueError(f"Could not read complete asset {asset_path} from {asar_path}.")
+    if asset_path.endswith(".webp") and not data.startswith(b"RIFF"):
+        raise ValueError(f"Extracted asset {asset_path} is not a valid WebP payload.")
     output_path.write_bytes(data)
 
 
